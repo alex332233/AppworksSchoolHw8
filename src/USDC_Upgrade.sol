@@ -38,7 +38,7 @@ contract USDC_Upgrade is FiatTokenV2Storage {
     using SafeMath for uint256;
     mapping(address => bool) public allowlist;
 
-    function addToAllowlist(address user) external {
+    function addToAllowList(address user) external {
         require(!allowlist[user], "User is already in the allowlist!");
         allowlist[user] = true;
     }
@@ -52,6 +52,10 @@ contract USDC_Upgrade is FiatTokenV2Storage {
         require(allowlist[msg.sender], "Caller not in allowlist");
         totalSupply_ = totalSupply_.add(_amount);
         balances[msg.sender] = balances[msg.sender].add(_amount);
+    }
+
+    function balanceOf(address account) public view virtual returns (uint256) {
+        return balances[account];
     }
 
     function version() external view returns (string memory) {
